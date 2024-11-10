@@ -1,0 +1,16 @@
+#include <iostream>
+using namespace std;
+
+int main()
+{
+	setlocale(LC_ALL, "Russian");
+	int a = 0;
+	cout << "Введите число: ";
+	cin >> a;
+	int b = a % 10;
+	int c = a % 1000 / 10 % 10;
+	int d = a % 10000 / 100 % 10;
+	int e = a / 1000 % 10;
+	int r = a / 10000;
+	int t = b + c + d + e + r;
+	cout << "Сумма цифр в вашем числе " << t;
