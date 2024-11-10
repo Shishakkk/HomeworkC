@@ -1,0 +1,28 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+int main() {
+    const int MAX = 1000;
+
+    
+    vector<bool> a(MAX + 1, true);
+
+    
+   a[1] = false;
+
+    for (int i = 2; i * i <= MAX; ++i) {
+        if (a[i]) {
+            for (int j = i * i; j <= MAX; j += i) {
+                a[j] = false;
+            }
+        }
+    }
+    for (int i = 2; i <= MAX; ++i) {
+        if (a[i]) {
+            cout << i << ' ';
+        }
+    }
+
+    return 0;
+}
