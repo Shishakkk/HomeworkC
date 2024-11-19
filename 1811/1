@@ -1,0 +1,35 @@
+#include <bits/stdc++.h>
+#include <iostream>
+using namespace std;
+
+
+int main() {
+    setlocale(LC_ALL, "RUS");
+    int arr[20]{};
+
+    cout << "Введите 20 целых чисел (от 0 до 9):\n";
+    for (int i = 0; i < 20; i++) {
+        int number;
+        while (true) {
+            cout << "Число " << (i + 1) << ": ";
+            cin >> number;
+
+            if (number < 0 || number > 9) {
+                cout << "Число в диапазоне от 0 до 9\n";
+            }
+            else {
+                arr[number]++; 
+                break; 
+            }
+        }
+    }
+
+    cout << "\nГистограмма частоты:\n";
+    for (int i = 0; i < 20; i++) {
+        cout << i << ": ";
+        for (int j = 0; j < arr[i]; j++) {
+            cout << '*';
+        }
+        cout << '\n';
+    }
+}
