@@ -1,0 +1,55 @@
+#include <iostream>
+using namespace std;
+
+void Sort(int array[], int size) {
+    bool swapped;
+    int start = 0;
+    int end = size - 1;
+
+    do {
+        swapped = false;
+      
+        for (int i = start; i < end; ++i) {
+            if (array[i] > array[i + 1]) {
+                swap(array[i], array[i + 1]);
+                swapped = true;
+            }
+        }
+
+        --end;
+
+        if (!swapped) {
+            break;
+        }
+
+        swapped = false;
+        for (int i = end - 1; i >= start; --i) {
+            if (array[i] > array[i + 1]) {
+                swap(array[i], array[i + 1]);
+                swapped = true;
+            }
+        }
+        ++start;
+    } while (swapped);
+}
+
+int main() {
+    setlocale(LC_ALL, "RUS");
+    const int SIZE = 10;
+    int mas[SIZE] = { 2, 1, 4, 5, 6, 4, 8, 4, 7, 9 };
+
+    for (int i = 0; i < SIZE; ++i) {
+        cout << mas[i] << " ";
+    }
+    cout << endl;
+
+    Sort(mas, SIZE);
+    
+    cout << "Отсортированный массив:" << endl;
+    for (int i = 0; i < SIZE; ++i) {
+        cout << mas[i] << " ";
+    }
+    cout << endl;
+
+    return 0;
+}
