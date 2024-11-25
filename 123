@@ -1,0 +1,85 @@
+#include <iostream>
+using namespace std;
+
+struct Node {
+    int value;
+    Node* next = nullptr;
+};
+
+Node* InitializeList(int size) {
+    Node* head = new Node(); // Создаем голову списка
+    Node* current = head; //Текущий элемент = голова списка
+    current->value = 0; //Значение текущего элемента = 0
+    for (int i = 0; i < size - 1; i++) {
+        current->next = new Node(); //В поле next как указатель на следующий элемент указываем следующий элемент
+        current = current->next; //Текущий элемент = следующий за текущим
+        current->value = 0;  //value у текущего элемента = 0
+    }
+    return head; //Возвращаем голову списка
+}
+
+Node* InitializeList(int size, int defaultValue) {
+    Node* head = new Node(); // Создаем голову списка
+    Node* current = head; //Текущий элемент = голова списка
+    current->value = defaultValue; //Значение текущего элемента = 0
+    for (int i = 0; i < size - 1; i++) {
+        current->next = new Node(); //В поле next как указатель на следующий элемент указываем следующий элемент
+        current = current->next; //Текущий элемент = следующий за текущим
+        current->value = defaultValue;  //value у текущего элемента = 0
+    }
+    return head; //Возвращаем голову списка
+}
+
+void PrintList(Node* head) {
+    Node* current = head;
+    while (current != nullptr) {
+        cout << current->value << " ";
+        current = current->next;
+    }
+    cout << endl;
+}
+
+int GetByIndexList(Node* head, int index) {
+    Node* current = head;
+    while (current != nullptr) {
+        if (index == 0) {
+            return current->value;
+        }
+        index--;
+        current = current->next;
+    }
+    return -1;
+}
+
+int Suma(Node* head) {
+    int sum = 0;
+    Node* current = head;
+
+    while (current) {
+        sum += current->value;
+        current = current->next;
+    }
+
+    return sum;
+}
+
+int maxa(Node* head) {
+    int max = 0;
+    Node* current = head;
+
+    while (current>current->next) {
+        max = current->value;
+        current = current->next;
+    }
+
+    return max;
+}
+
+int main()
+{
+    
+    Node* test = InitializeList(5, 1);
+    PrintList(test);
+    cout << Suma(test) << endl;
+    cout << maxa(test);
+}
