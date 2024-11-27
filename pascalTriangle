@@ -1,0 +1,37 @@
+#include <iostream>
+using namespace std;
+
+void pascalTriangle(int n) {
+    int* currentRow = new int[n];
+    int* previousRow = new int[n];
+
+    currentRow[0] = 1;
+
+    cout << currentRow[0] << endl;
+
+
+    for (int i = 1; i < n; ++i) {
+        for (int j = 0; j < i; ++j) {
+            previousRow[j] = currentRow[j];
+        }
+
+        currentRow[0] = 1;
+        for (int j = 1; j < i; ++j) {
+            currentRow[j] = previousRow[j - 1] + previousRow[j];
+        }
+        currentRow[i] = 1;
+
+     
+        for (int j = 0; j <= i; ++j) {
+            cout << currentRow[j] << ' ';
+        }
+        cout << endl;
+    }
+}
+
+int main() {
+    int n;
+    cin >> n;
+    pascalTriangle(n);
+    return 0;
+}
