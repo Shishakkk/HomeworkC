@@ -1,0 +1,58 @@
+#include <iostream>
+#include <cmath>
+using namespace std;
+
+/*int main()
+{
+	setlocale(LC_ALL, "Russian");
+	double a,b;
+	a = 0;
+    for (double a = 0; a < 100; a++) {
+        cout << a << " " << 9.0 / 5 * a + 32 << endl;
+    }
+
+}
+
+*/
+
+int main() {
+    setlocale(LC_ALL, "Russian");
+    int a, c, d = 0,f=1,g=0,h=1,j=0,k=0,l=0;
+    cout << "Введите a: ";
+    cin >> a;
+
+    for (int b = 0; b < a; b++) {
+        cout << "Введите число: ";
+        cin >> c;
+        d += c;
+        f = f * c;
+        if (c >= 0) { 
+            g += c;
+        }
+        else { 
+            g -= c;     }
+        if (c < 0) {
+            c=c-c;
+            h = h * c;
+        }
+        else {
+            h = h * c;
+        }
+        j += pow(c, 2);
+        
+
+        if (b == a) {
+            k = pow((-1), (a + 1)) * a;
+            l = l + k;
+        }
+        else{
+
+        }
+    }
+    cout << "Сумма введенных чисел: " << d << endl;    
+    cout << "Произведение введенных чисел: " << f << endl;
+    cout << "Сумма модулей введных числе: " << g << endl;
+    cout << "Произведение модулей введенных чисел: " << h<<endl;
+    cout << "Сумма квадратов введенных чисел: " << j;
+
+}
