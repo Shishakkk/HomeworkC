@@ -1,0 +1,273 @@
+#include <iostream>
+using namespace std;
+
+struct Node {
+    int value;
+    Node* next = nullptr;
+};
+
+Node* InitializeList(int size) {
+    if (size <= 0) {
+        return nullptr;
+    }
+
+    Node* head = new Node();
+    Node* current = head;
+    current->value = 0;
+
+    for (int i = 1; i < size; ++i) {
+        current->next = new Node();
+        current = current->next;
+        current->value = 0;
+    }
+
+    return head;
+}
+
+void PrintList(Node* head) {
+    Node* current = head;
+    while (current != nullptr) {
+        std::cout << current->value << " ";
+        current = current->next;
+    }
+    std::cout << std::endl;
+}
+
+bool Contains(Node* head, int target) {
+    Node* current = head;
+    while (current != nullptr) {
+        if (target == current->value) {
+            return true;
+        }
+        current = current->next;
+    }
+    return false;
+}
+
+int MaxOfList(Node* head) {
+    if (!head) {
+        return INT_MIN; 
+    }
+
+    Node* current = head;
+    int max = current->value;
+    while (current != nullptr) {
+        if (max < current->value) {
+            max = current->value;
+        }
+        current = current->next;
+    }
+    return max;
+}
+
+int MinOfList(Node* head) {
+    if (!head) {
+        return INT_MAX; 
+    }
+
+    Node* current = head;
+    int min = current->value;
+    while (current != nullptr) {
+        if (min > current->value) {
+            min = current->value;
+        }
+        current = current->next;
+    }
+    return min;
+}
+
+int SumOfList(Node* head) {
+    Node* current = head;
+    int sum = 0;
+    while (current != nullptr) {
+        sum += current->value;
+        current = current->next;
+    }
+    return sum;
+}
+
+Node* DeleteElementFromList(Node* head, int index) {
+    if (!head || index <= 0) {
+        return head;
+    }
+
+    Node* current = head;
+    Node* prev = nullptr;
+    int count = 0;
+
+    while (current && count < index) {
+        prev = current;
+        current = current->next;
+        count++;
+    }
+
+    if (count == index) {
+        if (prev) {
+            prev->next = current->next;
+        }
+        else {
+            head = current->next;
+        }
+        delete current;
+    }
+
+    return head;
+}
+
+Node* CopyList(Node* head) {
+    if (!head) {
+        return nullptr;
+    }
+
+    Node* newHead = new Node();
+    Node* currentNew = newHead;
+    Node* currentOld = head;
+
+    while (currentOld) {
+        currentNew->value = currentOld->value;
+
+        if (currentOld->next) {
+            currentNew->next = new Node();
+        }
+        else {
+            break;
+        }
+
+        currentNew = currentNew->next;
+        currentOld = currentOld->next;
+    }
+
+    return newHead;
+}
+
+void DeleteList(Node* head) {
+    Node* current = head;
+    while (current != nullptr) {
+        Node* temp = current->next;
+        delete current;
+        current = temp;
+    }
+}
+
+Node* StaticArrayToList(const int arr[], int size) {
+    if (size <= 0) {
+        return nullptr;
+    }
+
+    Node* head = new Node();
+    Node* current = head;
+
+    for (int i = 0; i < size; ++i) {
+        current->value = arr[i];
+
+        if (i < size - 1) {
+            current->next = new Node();
+            current = current->next;
+        }
+    }
+
+    return head;
+}
+
+void SwapList(Node* head, int index1, int index2) {
+    if (!head || index1 < 0 || index2 < 0) {
+        return;
+    }
+
+    Node* node1 = head;
+    Node* node2 = head;
+    Node* prev1 = nullptr;
+    Node* prev2 = nullptr;
+
+    int count = 0;
+    while (node1 && count < index1) {
+        prev1 = node1;
+        node1 = node1->next;
+        count++;
+    }
+
+    count = 0;
+    while (node2 && count < index2) {
+        prev2 = node2;
+        node2 = node2->next;
+        count++;
+    }
+
+    if (node1 && node2) {
+        if (prev1) {
+            prev1->next = node2;
+        }
+        else {
+            head = node2;
+        }
+
+        if (prev2) {
+            prev2->next = node1;
+        }
+        else {
+            head = node1;
+        }
+
+        Node* temp = node1->next;
+        node1->next = node2->next;
+        node2->next = temp;
+    }
+}
+
+int CountNodes(Node* head) {
+    int size = 0;
+    Node* current = head;
+    while (current != nullptr) {
+        size++;
+        current = current->next;
+    }
+    return size;
+}
+
+Node* DynamicArrayToList(int* array, int size) {
+    if (size <= 0) {
+        return nullptr;
+    }
+
+    Node* head = new Node();
+    Node* current = head;
+
+    for (int i = 0; i < size; ++i) {
+        current->value = array[i];
+
+        if (i < size - 1) {
+            current->next = new Node();
+            current = current->next;
+        }
+    }
+
+    return head;
+}
+
+int main() {
+    setlocale(LC_ALL, "RUSSIAN");
+
+    Node* test = InitializeList(5);
+    test->value = 1;
+    test->next->value = 2;
+    test->next->next->value = 3;
+    test->next->next->next->value = 4;
+    test->next->next->next->next->value = 5;
+
+    cout << "Исходный список:" << endl;
+    PrintList(test);
+
+    cout << "Элемент 1 найден: " << Contains(test, 1) <<endl;
+
+    cout << "Сумма всех элементов списка: " << SumOfList(test) << endl;
+
+    int arr[] = { 6, 7, 8, 9, 10 };
+    Node* listFromArray = StaticArrayToList(arr, 5);
+    cout << "Список из статического массива:" << endl;
+    PrintList(listFromArray);
+
+    DeleteList(test);
+    DeleteList(listFromArray);
+
+    return 0;
+}
