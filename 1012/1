@@ -1,0 +1,29 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+string atbash(string text) {
+    string fText;
+
+    for (char ch : text) {
+        if (ch >= 'a' && ch <= 'z') {  
+            fText += 'z' + 'a' - ch;
+        }
+        else if (ch >= 'A' && ch <= 'Z') {
+            fText += 'Z' + 'A' - ch;
+        }
+        else {
+            fText += ch;  
+        }
+    }
+
+    return fText;
+}
+
+int main() {
+    string text = "new year";
+    string text2 = atbash(text);
+    cout << text2<< endl;
+    return 0;
+}
