@@ -1,0 +1,27 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+string replaceVowels(const string& str) {
+    const string vowels = "ауеыоэёяюи";
+    string result;
+    
+    for (char ch : str) {
+        if (vowels.find(ch) != string::npos) {
+            result += '_';
+        } else {
+            result += ch;
+        }
+    }
+    
+    return result;
+}
+
+int main() {
+setlocale(LC_ALL, "Russian");
+    string input = "Привет! Как дела?";
+    string output = replaceVowels(input);
+    cout << output << endl;  // Вывод: Пр_в_t! Кк д_l?
+    return 0;
+}
