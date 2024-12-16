@@ -1,0 +1,31 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+string Numbers(string text) {
+    string numberedText;
+
+    for (char ch : text) {
+        if (ch >= 'a' && ch <= 'z') {  
+            int number = ch - 'a' + 1;
+            numberedText += to_string(number) + " ";
+        }
+        else if (ch >= 'A' && ch <= 'Z') { 
+            int number = ch - 'A' + 1;
+            numberedText += to_string(number) + " ";
+        }
+        else {
+            numberedText += ch;  
+        }
+    }
+
+    return numberedText;
+}
+
+int main() {
+    string text = "TOWN";
+    string numbered = Numbers(text);
+    cout << numbered << endl;
+    return 0;
+}
