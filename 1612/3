@@ -1,0 +1,46 @@
+#include <iostream>
+using namespace std;
+
+int* filterEvenNumbers(int* arr, int size) {
+    
+    int evenCount = 0;
+    for (int i = 0; i < size; ++i) {
+        if (arr[i] % 2 == 0) {
+            ++evenCount;
+        }
+    }
+
+  
+    int* result = new int[evenCount];
+
+    
+    int j = 0;
+    for (int i = 0; i < size; ++i) {
+        if (arr[i] % 2 == 0) {
+            result[j++] = arr[i];
+        }
+    }
+
+    return result;
+}
+
+int main() {
+    setlocale(LC_ALL, "Russian");
+
+    int size = 10;
+    int arr[] = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+
+    int* evenArr = filterEvenNumbers(arr, size);
+
+  
+    cout << "Четные элементы: ";
+    for (int i = 0; i < size / 2; ++i) {
+        cout << evenArr[i] << " ";
+    }
+    cout << endl;
+
+
+    delete[] evenArr;
+
+    return 0;
+}
