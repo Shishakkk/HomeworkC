@@ -1,0 +1,24 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+string removeDuplicates(string text) {
+    bool seen[256] = {false}; 
+    string uniqueText;
+    
+    for (char ch : text) {
+        if (!seen[(unsigned char)ch]) {
+            uniqueText += ch;
+            seen[(unsigned char)ch] = true;
+        }
+    }
+    
+    return uniqueText;
+}
+
+int main() {
+    string text = "hello world!";
+    string unique = removeDuplicates(text);
+    cout << unique << endl;
+}
