@@ -1,0 +1,29 @@
+#include <iostream>
+using namespace std;
+
+size_t ss(char* str, char symbol) {
+    size_t count = 0;
+
+    while (*str != '\0') {
+        if (*str == symbol) {
+            ++count;
+        }
+
+        ++str;
+    }
+
+    return count;
+}
+
+int main() {
+    setlocale(LC_ALL, "Russian");
+    char myString[] = "trololololo";
+    char targetSymbol = 'l';
+
+    size_t occurrences = ss(myString, targetSymbol);
+
+    cout << "буква '" << targetSymbol << "' в тексте "
+        << occurrences << " раз встречается" << endl;
+
+    return 0;
+}
