@@ -1,0 +1,48 @@
+#include <iostream>
+using namespace std;
+
+double sredenee(int* arr, int size) {
+	double b = 0;
+	for (int i = 0; i < size;i++) {
+		b = b + arr[i];
+	}
+	b = b / size;
+	return b;
+}
+
+
+
+int main() {
+	int size = 8;
+	
+	int* arr = new int[size];
+	for (int i = 0;i < size;i++) {
+		arr[i] = i + 1;
+	}
+	double d = sredenee(arr,size);
+	cout << d;
+}
+
+
+
+
+
+/*#include <string>
+
+
+string tolowerl(string str) {
+	for (char& ch : str) {
+		ch = tolower(ch);
+	}
+	return str;
+}
+
+int main() {
+	string a = "Hello, World!";
+	string b = tolowerl(a);
+
+	
+	cout<< b<< endl;
+
+
+}*/
