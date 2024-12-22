@@ -1,0 +1,43 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+// Функция, которая принимает ссылку на строку и возвращает указатель на новую строку
+string* returnTest(string& str) {
+    // Выделение памяти под новый объект строки
+    string* stringPtr = new string();        
+
+    // Копирование значения переданной строки в новую строку
+    *stringPtr = str;                        
+
+    // Возвращение указателя на новую строку
+    return stringPtr;                         
+}
+
+int main() {
+    // Создание строки test
+    string str = "test";                      
+
+    // Вызов функции returnTest и сохранение возвращенного указателя
+    string* newStr = returnTest(str);       
+
+    // Печать указателя newStr
+    cout << newStr << endl;                   
+
+    // Печать значения строки, на которую указывает newStr
+    cout << *newStr << endl;                  
+
+    // Получение адреса строки через разыменование и взятие адреса
+    cout << &*newStr << endl;                 
+
+    // Разыменование указателя и получение значения строки
+    cout << *&*newStr << endl;               
+
+    // Взятие адреса разыменованного указателя
+    cout << &*&*newStr << endl;              
+
+    // Разыменование результата взятия адреса разыменованного указателя
+    cout << *&*&*newStr << endl;              
+
+    return 0;
+}
