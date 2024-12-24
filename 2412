@@ -1,0 +1,67 @@
+#include <iostream>
+using namespace std;
+
+
+struct Rectangle {
+    int width;
+    int height;
+};
+
+
+Rectangle operator+(const Rectangle& r1, const Rectangle& r2) {
+    return { r1.width + r2.width, r1.height + r2.height };
+}
+
+Rectangle operator-(const Rectangle& r1, const Rectangle& r2) {
+    return { r1.width - r2.width, r1.height - r2.height };
+}
+
+
+int operator/(const Rectangle& r1, const Rectangle& r2) {
+    
+    if (r2.width == 0 || r2.height == 0) {
+        throw invalid_argument("Ошибка! Ширина или высота второго прямоугольника равна нулю.");
+    }
+    return (r1.width / r2.width) * (r1.height / r2.height);
+}
+
+
+Rectangle operator*(const Rectangle& r1, const Rectangle& r2) {
+    return { r1.width * r2.width, r1.height * r2.height };
+}
+
+
+void printRectangle(const Rectangle& rect) {
+    cout << "Ширина: " << rect.width << ", Высота: " << rect.height << endl;
+}
+
+int main() {
+    setlocale(LC_ALL, "Russian");
+    Rectangle rect1 = { 10, 20 }; 
+    Rectangle rect2 = { 5, 15 };   
+
+ 
+    Rectangle sumRect = rect1 + rect2;
+    cout << "Сумма прямоугольников:" << endl;
+    printRectangle(sumRect);
+
+   
+    Rectangle diffRect = rect1 - rect2;
+    cout << "Разность прямоугольников:" << endl;
+    printRectangle(diffRect);
+
+
+    try {
+        int count = rect1 / rect2;
+        cout << "Количество прямоугольников 2 в прямоугольнике 1: " << count << endl;
+    }
+    catch (invalid_argument& e) {
+        cerr << "Ошибка при делении: " << e.what() << endl;
+    }
+
+    Rectangle multRect = rect1 * rect2;
+    cout << "Произведение прямоугольников:" << endl;
+    printRectangle(multRect);
+
+    return 0;
+}
