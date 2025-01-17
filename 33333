@@ -1,0 +1,117 @@
+#include <iostream>
+using namespace std;
+
+void sum(int* arrb, int* arra, int size,int*itog) {
+	for (int i = 0; i < size; i++) {
+		itog[i] = arra[i] + arrb[i];
+	}
+}
+
+void vichit(int* arrb, int* arra, int size, int* itog) {
+	for (int i = 0; i < size; i++) {
+		itog[i] = arra[i] - arrb[i];
+	}
+}
+void ymnog(int* arrb, int* arra, int size, int* itog) {
+	for (int i = 0; i < size; i++) {
+		itog[i] = arra[i] * arrb[i];
+	}
+}
+void delenie(double* arrk, double* arrl , double* itog2,double size2) {
+	for (int i = 0; i < size2; i++) {
+		itog2[i] = arrk[i] / arrl[i];
+	}
+}
+void plusfive(int* arrb, int* arra, int size, int* itog) {
+	for (int i = 0; i < size; i++) {
+		itog[i] = arra[i] + 5;
+	}
+}
+void plusplusplus(int* arrb, int* arra, int size, int* itog, int* arrc) {
+	for (int i = 0; i < size; i++) {
+		if (i < 3) {
+			itog[i] = arra[i] + arrb[i] + arrc[i];
+		}
+		else {
+			itog[i] = arra[i] + arrb[i];
+		}
+		}
+}
+
+
+
+
+
+
+int main() {
+	setlocale(LC_ALL, "Russian");
+
+	int size = 5;
+	double size2 = size;
+	double* arrk = new double[size2];
+	double* arrl = new double[size2];
+	double* itog2 = new double[5];
+	int* arra = new int[size];
+	int* arrb = new int[size];
+	int* itog = new int[size];
+	int* arrc = new int[3] {3, 8, 5};
+	
+	arrb[0] = 6;
+	arrb[1] = 7;
+	arrb[2] = 8;
+	arrb[3] = 9;
+	arrb[4] = 10;
+	
+	for (int i = 0; i < size; i++) {
+		cout << "Введите " << i+1 << " значения первого массива" << endl;
+		cin >> arra[i];
+		arrk[i] = arra[i];
+	}
+	cout << endl << endl;
+	for (int i = 0; i < size; i++) {
+		cout << "Введите " << i+1 << " значения второго массива" << endl;
+		cin >> arrb[i];
+		arrl[i] = arrb[i];
+	}
+	cout << endl << endl;
+
+
+
+	cout << "Сложенные массивы" << endl;
+	sum(arrb,arra,size,itog);
+	for (int i = 0; i < size; i++) {
+		cout << itog[i]<<" ";
+	}
+	cout << endl;
+	cout << "Вычитанные массивы" << endl;
+	vichit(arrb, arra, size, itog);
+	for (int i = 0; i < size; i++) {
+		cout << itog[i] << " ";
+	}
+	cout << endl;
+	cout <<
+		"Умноженные массивы" << endl;
+	ymnog(arrb, arra, size, itog);
+	for (int i = 0; i < size; i++) {
+		cout << itog[i] << " ";
+	}
+	cout << endl;
+	cout << "Деленные массивы" << endl;
+	delenie(arrk, arrl,itog2,size2);
+	for (int i = 0; i < size; i++) {
+		cout << itog2[i] << " ";
+	}
+	cout << endl;
+	cout << "Plusfive" << endl;
+	
+	plusfive(arrb, arra, size, itog);
+	for (int i = 0; i < size; i++) {
+		cout << itog[i] << " ";
+	}
+	cout << endl;
+	cout << "Сложение трех массивов с разным размером"<<endl;
+	plusplusplus(arrb, arra, size, itog, arrc);
+	for (int i = 0; i < size; i++) {
+		cout<<itog[i]<<" ";
+	}
+}
