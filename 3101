@@ -1,0 +1,69 @@
+#include <iostream>
+using namespace std;
+
+
+void find(int** matrix, int a, int b) {
+    
+    for (int i = 0; i < a; ++i) {
+        
+        int mina = INT_MAX;
+        int minb = -1;
+
+        for (int j = 0; j < b; ++j) {
+            if (matrix[i][j] < mina) {
+                mina = matrix[i][j];
+                minb = j;
+            }
+        }
+     
+        bool maxb = true;
+        for (int k = 0; k < a; ++k) {
+            if (matrix[k][minb] > mina) {
+                maxb= false;
+                break;
+            }
+        }
+
+        if (maxb) {
+            cout << "Tochka (" << i << ", " << minb << ") s znaheniem " << mina << endl;
+        }
+    }
+}
+
+int main() {
+    
+
+   
+    const int a = 3;
+    const int b = 4;
+
+    int** matrix = new int* [a];
+    for (int i = 0; i < a; ++i) {
+        matrix[i] = new int[b];
+    }
+
+    
+    matrix[0][0] = 9; 
+    matrix[0][1] = 8; 
+    matrix[0][2] = 7; 
+    matrix[0][3] = 6;
+    matrix[1][0] = 10; 
+    matrix[1][1] = 11; 
+    matrix[1][2] = 12;
+    matrix[1][3] = 13;
+    matrix[2][0] = 15; 
+    matrix[2][1] = 14; 
+    matrix[2][2] = 16; 
+    matrix[2][3] = 17;
+
+    
+    find(matrix, a, b);
+
+    
+    for (int i = 0; i < a; ++i) {
+        delete[] matrix[i];
+    }
+    delete[] matrix;
+
+    return 0;
+}
