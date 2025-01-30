@@ -1,0 +1,209 @@
+#include <iostream> 
+#include <cstdlib> 
+#include <ctime> 
+using namespace std;
+
+
+
+
+struct figure {
+    int id;
+    char field[4][4];
+};
+
+
+void WW(figure I, figure L, figure L2, figure Lesenka, figure Lesenka2, figure kvadrat, figure hz) {
+    srand(time(nullptr));
+    int a = rand() % 7 + 1;
+    switch (a) {
+    case 1:
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4; j++) {
+                cout << I.field[i][j];
+            }
+            cout << endl;
+        }
+        break;
+    case 2:
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4; j++) {
+                cout << L2.field[i][j];
+            }
+            cout << endl;
+        }
+        break;
+
+    case 3:
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4; j++) {
+                cout << L2.field[i][j];
+            }
+            cout << endl;
+        }
+        break;
+    case 4:
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4; j++) {
+                cout << Lesenka.field[i][j];
+            }
+            cout << endl;
+        }
+        break;
+    case 5:
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4; j++) {
+                cout << Lesenka2.field[i][j];
+            }
+            cout << endl;
+        }
+        break;
+    case 6:
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4; j++) {
+                cout << kvadrat.field[i][j];
+            }
+            cout << endl;
+        }
+        break;
+    case 7:
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4; j++) {
+                cout << hz.field[i][j];
+            }
+            cout << endl;
+        }
+        break;
+
+    }
+
+}
+
+
+
+
+
+
+
+int main()
+{
+    setlocale(LC_ALL, "rus");
+    figure I;
+    I.id = 1;
+    for (int i = 0; i < 4; i++) {
+        for (int j = 0; j < 4; j++) {
+            I.field[j][0] = '*';
+            if (i > 0) {
+                I.field[j][i] = ' ';
+            }
+        }
+    }
+
+
+    figure L;
+    L.id = 2;
+    L.field[0][0] = '*';
+    L.field[1][0] = '*';
+    L.field[1][1] = '*';
+    L.field[1][2] = '*';
+
+
+    for (int i = 0; i < 4; i++) {
+        for (int j = 0; j < 4; j++) {
+            if (L.field[j][i] != '*') {
+                L.field[j][i] = ' ';
+            }
+        }
+    }
+
+
+
+    figure L2;
+    L2.id = 3;
+    L2.field[0][2] = '*';
+    L2.field[1][2] = '*';
+    L2.field[1][0] = '*';
+    L2.field[1][1] = '*';
+
+
+    for (int i = 0; i < 4; i++) {
+        for (int j = 0; j < 4; j++) {
+            if (L2.field[j][i] != '*') {
+                L2.field[j][i] = ' ';
+            }
+        }
+    }
+
+
+    figure Lesenka;
+    Lesenka.id = 4;
+    Lesenka.field[1][0] = '*';
+    Lesenka.field[1][1] = '*';
+    Lesenka.field[0][1] = '*';
+    Lesenka.field[0][2] = '*';
+
+
+    for (int i = 0; i < 4; i++) {
+        for (int j = 0; j < 4; j++) {
+            if (Lesenka.field[j][i] != '*') {
+                Lesenka.field[j][i] = ' ';
+            }
+        }
+    }
+
+
+
+    figure Lesenka2;
+    Lesenka2.id = 5;
+    Lesenka2.field[0][0] = '*';
+    Lesenka2.field[0][1] = '*';
+    Lesenka2.field[1][1] = '*';
+    Lesenka2.field[1][2] = '*';
+
+
+    for (int i = 0; i < 4; i++) {
+        for (int j = 0; j < 4; j++) {
+            if (Lesenka2.field[j][i] != '*') {
+                Lesenka2.field[j][i] = ' ';
+            }
+        }
+    }
+
+
+    figure kvadrat;
+    kvadrat.id = 6;
+    kvadrat.field[0][0] = '*';
+    kvadrat.field[0][1] = '*';
+    kvadrat.field[1][0] = '*';
+    kvadrat.field[1][1] = '*';
+
+
+    for (int i = 0; i < 4; i++) {
+        for (int j = 0; j < 4; j++) {
+            if
+                (kvadrat.field[j][i] != '*') {
+                kvadrat.field[j][i] = ' ';
+            }
+        }
+    }
+
+
+    figure hz;
+    hz.id = 7;
+    hz.field[0][1] = '*';
+    hz.field[1][1] = '*';
+    hz.field[1][0] = '*';
+    hz.field[1][2] = '*';
+
+    for (int i = 0; i < 4; i++) {
+        for (int j = 0; j < 4; j++) {
+            if (hz.field[j][i] != '*') {
+                hz.field[j][i] = ' ';
+            }
+        }
+    }
+
+    WW(I, L, L2, Lesenka, Lesenka2, kvadrat, hz);
+
+
+    return 0;
+}
