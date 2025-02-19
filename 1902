@@ -1,0 +1,138 @@
+#include<iostream>
+#include <Windows.h>
+using namespace std;
+
+class Mage;
+class Warrior;
+class Rogue;
+class Znaharb;
+
+class Boss {
+private:
+    int HP = 100000;
+    int dmg = rand() % 10 + 1;
+    string name_boss = "Koshey BESMERTNIY";
+public:
+    int gethp() {
+        return HP;
+    }
+    friend class Mage;
+    friend class Warrior;
+    friend class Rogue;
+    friend class Znaharb;
+    void TakeDMG(int dmg) {
+        HP -= dmg;
+        cout << "                                                         Босс получил: " << dmg << " Осталось здоровья:" << HP << endl<<endl;
+
+        if (HP <= 0) {
+            HP = 0;
+            cout << "Boss lose ";
+        }
+
+    }
+    int giveDMG() {
+        return dmg;
+    }
+   
+};
+
+class Rogue {
+private:
+    int HP = 100;
+    int dmg = rand() % 50 + 10;
+public:
+    int gethp() {
+        return HP;
+    }
+    int sethp(int hP) {
+        this->HP = hP;
+    }
+    void dmg_boss(Boss& boss) {
+        cout << "Разбойник наносит аттаку Боссу в спину! " << endl;
+        boss.TakeDMG(dmg);
+    }
+    void giveDMG(Boss& gg) {
+        HP = HP - gg.giveDMG();
+        cout <<"Разбойник получил: "<< gg.giveDMG()<<" Урона и у него осталось: "<<HP<<endl;
+    }
+};
+
+class Warrior {
+private:
+    int HP = 100;
+    int dmg = rand() % 40 + 10;
+public:
+    int gethp() {
+        return HP;
+    }
+    int sethp(int hP) {
+        this->HP = hP;
+    }
+    void dmg_boss(Boss& boss) {
+        cout << "Воин с рывка наносит аттаку по Боссу! "<<endl;
+        boss.TakeDMG(dmg);
+    }
+    void giveDMG(Boss& gg) {
+        HP = HP - gg.giveDMG();
+        cout << "Воин получил: " << gg.giveDMG() << " Урона и у него осталось: " << HP<<endl;
+    }
+};
+
+class Mage {
+private:
+    int HP = 100;
+    int dmg = rand()%60+10;
+public:
+    int sethp(int hP) {
+        this->HP = hP;
+    }
+    int gethp() {
+        return HP;
+    }
+    void attack_boss(Boss& boss) {
+        cout << "Маг использует заклинания и наносит аттаку по Боссу! "<<endl;
+        boss.TakeDMG(dmg);
+    }
+    void giveDMG(Boss& gg) {
+        HP = HP - gg.giveDMG();
+        cout << "Маг получил: " << gg.giveDMG() << " Урона и у него осталось: " << HP<<endl;
+    }
+};
+
+class Znaharb {
+    friend class Mage;
+    friend class Warrior;
+    friend class Rogue;
+private:
+    int hp = 250;
+    int dmg = 0;
+public:
+    void heal(Mage& MageHP, Warrior& WarriorHP, Rogue& RogueHP) {
+        if((MageHP.gethp()<100) ||(WarriorHP.gethp()<100)||(RogueHP.gethp()<100 )){
+            
+        }
+    }
+
+};
+
+int main() {
+    srand(time(0));
+    setlocale(LC_ALL, "rus");
+    Boss boss;
+    Rogue rogue;
+    Warrior warrior;
+    Mage mage;
+    rogue.giveDMG(boss);
+    mage.giveDMG(boss);
+    warrior.giveDMG(boss);
+    /*while (boss.gethp() > 0) {
+        Sleep(500);
+        rogue.dmg_boss(boss);
+        Sleep(500);
+        warrior.dmg_boss(boss);
+        Sleep(500);
+        mage.attack_boss(boss);
+    }*/
+    return 0;
+}
+
