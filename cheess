@@ -1,0 +1,230 @@
+#include <iostream>
+#include <string>
+#include <memory> // для умных указателей
+
+using namespace std;
+
+class Figure {
+protected:
+    string name;
+    int x;
+    int y;
+    bool isMoved = false;
+public:
+    Figure() : name(""), x(0), y(0) {}
+    Figure(int x1, int y1, string name1) : name(name1), x(x1), y(y1) {}
+
+    virtual char getSymbol() const = 0;
+    virtual void move(int newX, int newY) {
+        x = newX;
+        y = newY;
+        isMoved = true;
+    }
+
+    virtual bool isValidMove(int newX, int newY) const = 0;
+
+    int getX() const { return x; }
+    int getY() const { return y; }
+    string getName() const { return name; }
+};
+
+class Knight : public Figure {
+public:
+    Knight(int x1, int y1, string name1) : Figure(x1, y1, name1) {}
+
+    char getSymbol() const override {
+        return 'N';
+    }
+
+    bool isValidMove(int newX, int newY) const override {
+        int dx = abs(newX - x);
+        int dy = abs(newY - y);
+        return (dx == 2 && dy == 1) || (dx == 1 && dy == 2);
+    }
+};
+
+class Queen : public Figure {
+public:
+    Queen(int x1, int y1, string name1) : Figure(x1, y1, name1) {}
+
+    char getSymbol() const override {
+        return 'Q';
+    }
+
+    bool isValidMove(int newX, int newY) const override {
+        int dx = abs(newX - x);
+        int dy = abs(newY - y);
+        return (dx == dy) || (x == newX || y == newY);
+    }
+};
+
+class King : public Figure {
+public:
+    King(int x1, int y1, string name1) : Figure(x1, y1, name1) {}
+
+    char getSymbol() const override {
+        return 'K';
+    }
+
+    bool isValidMove(int newX, int newY) const override {
+        int dx = abs(newX - x);
+        int dy = abs(newY - y);
+        return dx <= 1 && dy <= 1;
+    }
+};
+
+class Rook : public Figure {
+public:
+    Rook(int x1, int y1, string name1) : Figure(x1, y1, name1) {}
+
+    char getSymbol() const override {
+        return 'R';
+    }
+
+    bool isValidMove(int newX, int newY) const override {
+        return (x == newX || y == newY);
+    }
+};
+
+class Bishop : public Figure {
+public:
+    Bishop(int x1, int y1, string name1) : Figure(x1, y1, name1) {}
+
+    char getSymbol() const override {
+        return 'B';
+    }
+
+    bool isValidMove(int newX, int newY) const override {
+        int dx = abs(newX - x);
+        int dy = abs(newY - y);
+        return dx == dy;
+    }
+};
+
+class Pawn : public Figure {
+public:
+    Pawn(int x1, int y1, string name1) : Figure(x1, y1, name1) {}
+
+    char getSymbol() const override {
+        return 'P';
+    }
+
+    bool isValidMove(int newX, int newY) const override {
+        int dx = newX - x;
+        int dy = newY - y;
+        if (isMoved) {
+            return (dx == 0 && dy == 1);
+        } else {
+            return (dx == 0 && (dy == 1 || dy == 2));
+        }
+    }
+};
+
+struct Piece {
+    Figure* figura;
+    bool isWhite;
+};
+
+class ChessBoard {
+private:
+    static const int size = 8;
+    Piece board[size][size];
+
+public:
+    ChessBoard() {
+        for (int i = 0; i < size; ++i) {
+            for (int j = 0; j < size; ++j) {
+                board[i][j] = { nullptr, false };
+            }
+        }
+    }
+
+    ~ChessBoard() {
+        for (int i = 0; i < size; ++i) {
+            for (int j = 0; j < size; ++j) {
+                delete board[i][j].figura;
+            }
+        }
+    }
+
+    void placePiece(int row, int col, Figure* piece, bool isWhite) {
+        if (row >= 0 && row < size && col >= 0 && col < size) {
+            board[row][col] = { piece, isWhite };
+        }
+    }
+
+    void printBoard() {
+        cout << "  ";
+        for (int j = 0; j < size; ++j) {
+            cout << " " << char('A' + j) << " ";
+        }
+        cout << endl;
+
+        for (int i = 0; i < size; ++i) {
+            cout << size - i << " ";
+
+            for (int j = 0; j < size; ++j) {
+                if ((i + j) % 2 == 0) {
+                    cout << "\033[100m";
+                } else {
+                    cout << "\033[40m";
+                }
+
+                if (board[i][j].figura) {
+                    cout << " " << board[i][j].figura->getSymbol() << " ";
+                } else {
+                    cout << " . ";
+                }
+            }
+
+            cout << "\033[0m" << " " << size - i << endl;
+        }
+
+        cout << "  ";
+        for (int j = 0; j < size; ++j) {
+            cout << " " << char('A' + j) << " ";
+        }
+        cout << endl;
+    }
+};
+
+ChessBoard CreateFullBoard() {
+    ChessBoard chessBoard;
+
+    // Белые фигуры
+    chessBoard.placePiece(0, 0, new Rook(0, 0, "Rook"), true);
+    chessBoard.placePiece(0, 1, new Knight(0, 1, "Knight"), true);
+    chessBoard.placePiece(0, 2, new Bishop(0, 2, "Bishop"), true);
+    chessBoard.placePiece(0, 3, new Queen(0, 3, "Queen"), true);
+    chessBoard.placePiece(0, 4, new King(0, 4, "King"), true);
+    chessBoard.placePiece(0, 5, new Bishop(0, 5, "Bishop"), true);
+    chessBoard.placePiece(0, 6, new Knight(0, 6, "Knight"), true);
+    chessBoard.placePiece(0, 7, new Rook(0, 7, "Rook"), true);
+
+    for (int i = 0; i < 8; ++i) {
+        chessBoard.placePiece(1, i, new Pawn(1, i, "Pawn"), true);
+    }
+
+    // Черные фигуры
+    chessBoard.placePiece(7, 0, new Rook(7, 0, "Rook"), false);
+    chessBoard.placePiece(7, 1, new Knight(7, 1, "Knight"), false);
+    chessBoard.placePiece(7, 2, new Bishop(7, 2, "Bishop"), false);
+    chessBoard.placePiece(7, 3, new Queen(7, 3, "Queen"), false);
+    chessBoard.placePiece(7, 4, new King(7, 4, "King"), false);
+    chessBoard.placePiece(7, 5, new Bishop(7, 5, "Bishop"), false);
+    chessBoard.placePiece(7, 6, new Knight(7, 6, "Knight"), false);
+    chessBoard.placePiece(7, 7, new Rook(7, 7, "Rook"), false);
+
+    for (int i = 0; i < 8; ++i) {
+        chessBoard.placePiece(6, i, new Pawn(6, i, "Pawn"), false);
+    }
+
+    return chessBoard;
+}
+
+int main() {
+    ChessBoard chessBoard = CreateFullBoard();
+    chessBoard.printBoard();
+
+    return 0;
+}
