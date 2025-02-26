@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-#include <memory> // для умных указателей
+#include <memory> 
 
 using namespace std;
 
@@ -114,7 +114,8 @@ public:
         int dy = newY - y;
         if (isMoved) {
             return (dx == 0 && dy == 1);
-        } else {
+        }
+        else {
             return (dx == 0 && (dy == 1 || dy == 2));
         }
     }
@@ -154,41 +155,40 @@ public:
     }
 
     bool movePiece(int startX, int startY, int endX, int endY) {
-        // Проверка границ доски
+        
         if (startX < 0 || startX >= size || startY < 0 || startY >= size ||
             endX < 0 || endX >= size || endY < 0 || endY >= size) {
             cout << "Недопустимые координаты!" << endl;
             return false;
         }
 
-        // Проверка, есть ли фигура на начальной позиции
+       
         if (!board[startX][startY].figura) {
             cout << "На начальной позиции нет фигуры!" << endl;
             return false;
         }
 
-        // Проверка допустимости хода
+        
         if (!board[startX][startY].figura->isValidMove(endX, endY)) {
             cout << "Недопустимый ход для фигуры!" << endl;
             return false;
         }
 
-        // Проверка, не занята ли конечная позиция фигурой того же цвета
         if (board[endX][endY].figura && board[endX][endY].isWhite == board[startX][startY].isWhite) {
             cout << "Конечная позиция занята фигурой того же цвета!" << endl;
             return false;
         }
 
-        // Удаление фигуры на конечной позиции (если есть)
+        
         if (board[endX][endY].figura) {
             delete board[endX][endY].figura;
         }
 
-        // Перемещение фигуры
+ 
         board[endX][endY] = board[startX][startY];
         board[startX][startY] = { nullptr, false };
 
-        // Обновление координат фигуры
+    
         board[endX][endY].figura->move(endX, endY);
 
         cout << "Фигура перемещена успешно!" << endl;
@@ -208,13 +208,15 @@ public:
             for (int j = 0; j < size; ++j) {
                 if ((i + j) % 2 == 0) {
                     cout << "\033[100m";
-                } else {
+                }
+                else {
                     cout << "\033[40m";
                 }
 
                 if (board[i][j].figura) {
                     cout << " " << board[i][j].figura->getSymbol() << " ";
-                } else {
+                }
+                else {
                     cout << " . ";
                 }
             }
@@ -233,7 +235,7 @@ public:
 ChessBoard CreateFullBoard() {
     ChessBoard chessBoard;
 
-    // Белые фигуры
+  
     chessBoard.placePiece(0, 0, new Rook(0, 0, "Rook"), true);
     chessBoard.placePiece(0, 1, new Knight(0, 1, "Knight"), true);
     chessBoard.placePiece(0, 2, new Bishop(0, 2, "Bishop"), true);
@@ -247,7 +249,7 @@ ChessBoard CreateFullBoard() {
         chessBoard.placePiece(1, i, new Pawn(1, i, "Pawn"), true);
     }
 
-    // Черные фигуры
+
     chessBoard.placePiece(7, 0, new Rook(7, 0, "Rook"), false);
     chessBoard.placePiece(7, 1, new Knight(7, 1, "Knight"), false);
     chessBoard.placePiece(7, 2, new Bishop(7, 2, "Bishop"), false);
@@ -264,7 +266,6 @@ ChessBoard CreateFullBoard() {
     return chessBoard;
 }
 
-// Функция для преобразования координат (например, "A2") в индексы массива
 bool parsePosition(const string& pos, int& row, int& col) {
     if (pos.length() != 2) return false;
 
@@ -274,11 +275,12 @@ bool parsePosition(const string& pos, int& row, int& col) {
     if (colChar < 'A' || colChar > 'H' || rowChar < '1' || rowChar > '8') return false;
 
     col = colChar - 'A';
-    row = '8' - rowChar; // Преобразуем в индексы массива (0-7)
+    row = '8' - rowChar; 
     return true;
 }
 
 int main() {
+    setlocale(LC_ALL, "RUS");
     ChessBoard chessBoard = CreateFullBoard();
     chessBoard.printBoard();
 
@@ -295,7 +297,8 @@ int main() {
 
         if (chessBoard.movePiece(startRow, startCol, endRow, endCol)) {
             chessBoard.printBoard();
-        } else {
+        }
+        else {
             cout << "Ход не выполнен. Попробуйте снова." << endl;
         }
     }
