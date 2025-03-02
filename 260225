@@ -1,0 +1,75 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+class Employee {
+protected:
+    string name;
+    double salary;
+
+public:
+    Employee(const string& name, double salary)
+        : name(name), salary(salary) {
+    }
+
+    virtual double calculateBonus() const = 0;
+    virtual ~Employee() {}
+};
+
+class Manager : public Employee {
+    int numberOfSubordinates;
+
+public:
+    Manager(const string& name, double salary, int subs)
+        : Employee(name, salary), numberOfSubordinates(subs) {
+    }
+
+    double calculateBonus() const override {
+        return salary * 0.05 * numberOfSubordinates;
+    }
+};
+
+class Developer : public Employee {
+    int numberOfProjects;
+
+public:
+    Developer(const string& name, double salary, int projects)
+        : Employee(name, salary), numberOfProjects(projects) {
+    }
+
+    double calculateBonus() const override {
+        return salary * 0.15 * numberOfProjects;
+    }
+};
+
+class Intern : public Employee {
+    int internshipDuration;
+
+public:
+    Intern(const string& name, double salary, int duration)
+        : Employee(name, salary), internshipDuration(duration) {
+    }
+
+    double calculateBonus() const override {
+        return (internshipDuration > 3) ? 1000.0 : 0.0;
+    }
+};
+
+int main() {
+    setlocale(LC_ALL, "rus");
+    Employee* employees[] = {
+        new Manager("John Doe", 5000, 10),
+        new Developer("Alice Smith", 6000, 4),
+        new Intern("Bob Johnson", 0, 5),
+        new Intern("Eve Wilson", 0, 2)
+    };
+
+    for (Employee* emp : employees) {
+        cout << "Бонус: " << typeid(*emp).name() << ": $"
+            << emp->calculateBonus() << endl;
+        delete emp;
+    }
+
+    return 0;
+}
