@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <iomanip>
 
 using namespace std;
 
@@ -14,6 +15,8 @@ public:
     }
 
     virtual double calculateBonus() const = 0;
+    virtual string getRole() const = 0;
+    virtual void printDetails() const = 0;
     virtual ~Employee() {}
 };
 
@@ -28,6 +31,15 @@ public:
     double calculateBonus() const override {
         return salary * 0.05 * numberOfSubordinates;
     }
+
+    string getRole() const override { return "Менеджер"; }
+
+    void printDetails() const override {
+        cout << "Должность: " << getRole() << endl
+            << "Имя: " << name << endl
+            << "Оклад: $" << fixed << setprecision(2) << salary << endl
+            << "Подчиненные: " << numberOfSubordinates << " чел.\n";
+    }
 };
 
 class Developer : public Employee {
@@ -40,6 +52,15 @@ public:
 
     double calculateBonus() const override {
         return salary * 0.15 * numberOfProjects;
+    }
+
+    string getRole() const override { return "Разработчик"; }
+
+    void printDetails() const override {
+        cout << "Должность: " << getRole() << endl
+            << "Имя: " << name << endl
+            << "Оклад: $" << fixed << setprecision(2) << salary << endl
+            << "Проекты: " << numberOfProjects << " шт.\n";
     }
 };
 
@@ -54,20 +75,31 @@ public:
     double calculateBonus() const override {
         return (internshipDuration > 3) ? 1000.0 : 0.0;
     }
+
+    string getRole() const override { return "Стажер"; }
+
+    void printDetails() const override {
+        cout << "Должность: " << getRole() << endl
+            << "Имя: " << name << endl
+            << "Зарплата: $" << fixed << setprecision(2) << salary << endl
+            << "Длительность стажировки: " << internshipDuration << " мес.\n";
+    }
 };
 
 int main() {
     setlocale(LC_ALL, "rus");
     Employee* employees[] = {
-        new Manager("John Doe", 5000, 10),
-        new Developer("Alice Smith", 6000, 4),
-        new Intern("Bob Johnson", 0, 5),
-        new Intern("Eve Wilson", 0, 2)
+        new Manager("Алексей Колосов", 5000, 10),
+        new Developer("Алексей Сотников", 6000, 4),
+        new Intern("Павел Коволенко", 500, 5),
+        new Intern("Михаил Михалев", 500, 2)
     };
 
     for (Employee* emp : employees) {
-        cout << "Бонус: " << typeid(*emp).name() << ": $"
-            << emp->calculateBonus() << endl;
+        cout << "\n=== Информация о сотруднике ===" << endl;
+        emp->printDetails();
+        cout << "Расчет бонуса: $" << emp->calculateBonus()
+            << "\n===============================" << endl << endl;
         delete emp;
     }
 
