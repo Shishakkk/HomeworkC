@@ -1,0 +1,72 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+
+class Wheels {
+protected:
+    int count;
+    string type;
+
+public:
+    Wheels(int count, string type) : count(count), type(type) {}
+
+    void print() const {
+        cout << "Wheels: " << count << " wheels, type: " << type << endl;
+    }
+};
+
+
+class Engine {
+protected:
+    string fuelType;
+    int horsepower;
+
+public:
+    Engine(string fuelType, int horsepower) : fuelType(fuelType), horsepower(horsepower) {}
+
+    void print() const {
+        cout << "Engine: fuel type - " << fuelType << ", horsepower - " << horsepower << endl;
+    }
+};
+
+
+class Body {
+protected:
+    string color;
+    string material;
+
+public:
+    Body(string color, string material) : color(color), material(material) {}
+
+    void print() const {
+        cout << "Body: color - " << color << ", material - " << material << endl;
+    }
+};
+
+
+class Car : public Wheels, public Engine, public Body{
+private:
+    string model;
+
+public:
+    Car(string model, int wheelCount, string wheelType, string engineFuelType, int engineHorsepower, string bodyColor, string bodyMaterial, string interiorUpholstery, bool interiorHasLeatherSeats)
+        : Wheels(wheelCount, wheelType), Engine(engineFuelType, engineHorsepower), Body(bodyColor, bodyMaterial),  model(model) {
+    }
+
+    void print() const {
+        cout << "Car Model: " << model << endl;
+        Wheels::print();
+        Engine::print();
+        Body::print();
+       
+    }
+};
+
+int main() {
+    Car myCar("Tesla Model S", 4, "Alloy", "Electric", 670, "Red", "Aluminum", "Fabric", true);
+    myCar.print();
+
+    return 0;
+}
