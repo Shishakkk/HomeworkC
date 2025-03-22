@@ -1,0 +1,155 @@
+#include <iostream>
+using namespace std;
+
+class Transport {
+public:
+    int skorost; 
+    Transport(int s = 0) : skorost(s) {}
+    virtual void display() {
+        cout << "Транспорт: " << skorost << " км/ч\n";
+    }
+};
+
+class Car : public Transport {
+public:
+    string marka;
+    Car(int s = 0, string b = "") : Transport(s), marka(b) {}
+    void display() {
+        cout << "Автомобиль: " << marka << ", " << skorost << " км/ч\n";
+    }
+};
+
+class Train : public Transport {
+public:
+    int vagoni; 
+    Train(int s = 0, int c = 0) : Transport(s), vagoni(c) {}
+    void display() {
+        cout << "Поезд: " << vagoni << " вагонов, " << skorost << " км/ч\n";
+    }
+};
+
+class Express : public Train {
+public:
+    string marshrut;
+    Express(int s = 0, int c = 0, string r = "") : Train(s, c), marshrut(r) {}
+    void display() {
+        cout << "Экспресс: " << marshrut << ", " << vagoni << " вагонов, " << skorost << " км/ч\n";
+    }
+};
+
+const int MAX_SIZE = 20;
+
+int main() {
+    setlocale(LC_ALL, "RUS");
+
+    Transport* kollekciya[MAX_SIZE]; 
+    int kolichestvo = 0;
+
+    while (true) {
+        cout << "\nМеню:\n";
+        cout << "1. Добавить Транспорт\n";
+        cout << "2. Добавить Автомобиль\n";
+        cout << "3. Добавить Поезд\n";
+        cout << "4. Добавить Экспресс\n";
+        cout << "5. Удалить по индексу\n";
+        cout << "6. Показать все\n";
+        cout << "7. Выход\n";
+        cout << "Выберите: ";
+
+        int vibor;
+        cin >> vibor;
+
+        switch (vibor) {
+        case 1: {
+            if (kolichestvo >= MAX_SIZE) {
+                cout << "Коллекция переполнена!\n";
+                break;
+            }
+            int skorost;
+            cout << "Введите скорость: ";
+            cin >> skorost;
+            kollekciya[kolichestvo++] = new Transport(skorost);
+            break;
+        }
+        case 2: {
+            if (kolichestvo >= MAX_SIZE) {
+                cout << "Коллекция переполнена!\n";
+                break;
+            }
+            int skorost;
+            string marka;
+            cout << "Введите скорость: ";
+            cin >> skorost;
+            cout << "Введите марку(На английском языке!): ";
+            cin >> marka;
+            kollekciya[kolichestvo++] = new Car(skorost, marka);
+            break;
+        }
+        case 3: {
+            if (kolichestvo >= MAX_SIZE) {
+                cout << "Коллекция переполнена!\n";
+                break;
+            }
+            int skorost, vagoni;
+            cout << "Введите скорость: ";
+            cin >> skorost;
+            cout << "Введите количество вагонов: ";
+            cin >> vagoni;
+            kollekciya[kolichestvo++] = new Train(skorost, vagoni);
+            break;
+        }
+        case 4: {
+            if (kolichestvo >= MAX_SIZE) {
+                cout << "Коллекция переполнена!\n";
+                break;
+            }
+            int skorost, vagoni;
+            string marshrut;
+            cout << "Введите скорость: ";
+            cin >> skorost;
+            cout << "Введите количество вагонов: ";
+            cin >> vagoni;
+            cout << "Введите маршрут: ";
+            cin >> marshrut;
+            kollekciya[kolichestvo++] = new Express(skorost, vagoni, marshrut);
+            break;
+        }
+        case 5: {
+            int index;
+            cout << "Введите индекс: ";
+            cin >> index;
+            if (index < 0 || index >= kolichestvo) {
+                cout << "Неверный индекс!\n";
+            }
+            else {
+                delete kollekciya[index];
+                for (int i = index; i < kolichestvo - 1; ++i) {
+                    kollekciya[i] = kollekciya[i + 1];
+                }
+                kolichestvo--;
+                cout << "Удалено.\n";
+            }
+            break;
+        }
+        case 6: {
+            for (int i = 0; i < kolichestvo; ++i) {
+                cout << "Элемент " << i << ": ";
+                kollekciya[i]->display();
+            }
+            break;
+        }
+        case 7: {
+            for (int i = 0; i < kolichestvo; ++i) {
+                delete kollekciya[i];
+            }
+            return 0;
+        }
+        default: {
+            cout << "Неверный выбор!\n";
+            break;
+        }
+        }
+    }
+
+    return 0;
+}
