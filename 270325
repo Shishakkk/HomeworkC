@@ -1,0 +1,131 @@
+#include <iostream>
+using namespace std;
+
+class Animals {
+protected:
+	string name;
+	int count;
+public:
+	virtual void print() = 0;
+};
+
+
+class Mlekopit :public Animals {
+protected:
+	string razmer;
+public:
+	Mlekopit() {
+		count = 0;
+		name = " ";
+		razmer = " ";
+	}
+	Mlekopit(int count, string name, string razmer) {
+		this->count = count;
+		this->name = name;
+		this->razmer = razmer;
+	}
+	void print() override  {
+		cout << "Имя: " << name << endl;
+		cout << "Колличество: " << count << endl;
+		cout << "razmer: " << razmer << endl;
+	}
+
+	friend ostream& operator<<(ostream& out, Mlekopit& mlek) {
+		out << "Млекопитающие: " << mlek.name << " Количество: " << mlek.count<< " Размер: " << mlek.razmer << endl;
+		return out;
+	}
+};
+
+
+
+
+class Parnokopit : public Mlekopit {
+protected: 
+	string type;
+public:
+
+	Parnokopit() {
+		count = 0;
+		name = " ";
+		razmer = " ";
+		type = " ";
+	}
+	Parnokopit(int count, string name, string razmer,string type) {
+		this->count = count;
+		this->name = name;
+		this->razmer = razmer;
+		this->type = type;
+	}
+	void print() override {
+		cout << "Имя: " << name << endl;
+		cout << "Колличество: " << count << endl;
+		cout << "razmer: " << razmer << endl;
+		cout << "Тип:" << type << endl;
+	}
+	friend ostream& operator<<(ostream& out, Parnokopit& parno) {
+		out << "Млекопитающие, парнокопытное: "<<parno.type<<" название: " << parno.name << " Колличество: " << parno.count << " Размерчик: " << parno.razmer << endl;
+		return out;
+	}
+
+};
+
+
+
+
+class bird :public Animals {
+protected:
+	int srokjizni;
+public:
+	bird() {
+		count = 0;
+		name = " ";
+		srokjizni = 0;
+	}
+	bird(int count, string name, int srokjizni) {
+		this->count = count;
+		this->name = name;
+		this->srokjizni = srokjizni;
+	}
+	void print() override {
+		cout << "Имя: " << name << endl;
+		cout << "Колличество: " << count << endl;
+		cout << "Срок жизни: " << srokjizni << endl;
+	}
+
+	friend ostream& operator<<(ostream& out, bird& b) {
+		out << "Птица " << b.name << " колличество: "<< b.count <<"живет: " << b.srokjizni << "(лет)"<<endl;
+		return out;
+	}
+
+};
+
+
+
+
+int main() 
+{
+	setlocale(LC_ALL, "RUS");
+	bird orel(1, "Орел", 25);
+	cout << orel;
+
+	Parnokopit Cow(10,"Корова","Большая","Домашняя");
+	cout << Cow;
+
+
+	}
+
+
+
+
+
+
+
+
+/*Практика:
+Млекопитающее, парнокопытное, птица, животное
+Теория :
+
+Какие модификаторы типа доступа Вам известны ?
+
+В чем состоит различие между дочерним и родительским классами ?*/
+
