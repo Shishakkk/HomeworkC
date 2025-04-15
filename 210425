@@ -1,0 +1,157 @@
+public interface Food
+{
+    string Render();
+    int Cost();
+}
+
+public class Pizza : Food
+{
+    private string content;
+    protected int cost;
+
+    public Pizza(string content)
+    {
+        this.content = content;
+        this.cost = 100; 
+    }
+
+    public string Render()
+    {
+        return content;
+    }
+
+    public int Cost()
+    {
+        return cost;
+    }
+}
+
+public abstract class Nachinka : Food
+{
+    protected Food food;
+
+    public Nachinka(Food food)
+    {
+        this.food = food;
+    }
+
+    public abstract string Render();
+    public abstract int Cost();
+}
+
+public class Grib : Nachinka
+{
+    private int cost = 125; 
+
+    public Grib(Food food) : base(food)
+    {
+    }
+
+    public override string Render()
+    {
+        return $"{food.Render()}, Шампиньоны";
+    }
+
+    public override int Cost()
+    {
+        return food.Cost() + cost;
+    }
+}
+
+public class Kolbasa : Nachinka
+{
+    private int cost = 155; 
+
+    public Kolbasa(Food food) : base(food)
+    {
+    }
+
+    public override string Render()
+    {
+        return $"{food.Render()}, Пепперони";
+    }
+
+    public override int Cost()
+    {
+        return food.Cost() + cost;
+    }
+}
+
+public class CheeeseBortik : Nachinka
+{
+    private int cost = 225;
+
+    public CheeeseBortik(Food food) : base(food)
+    {
+    }
+
+    public override string Render()
+    {
+        return $"{food.Render()}, Сырный бортик";
+    }
+
+    public override int Cost()
+    {
+        return food.Cost() + cost;
+    }
+}
+
+public class Eggs : Nachinka
+{
+    private int cost = 55;
+
+    public Eggs(Food food) : base(food)
+    {
+    }
+
+    public override string Render()
+    {
+        return $"{food.Render()}, Яйцо";
+    }
+
+    public override int Cost()
+    {
+        return food.Cost() + cost;
+    }
+}
+
+public class Sauce : Nachinka
+{
+    private int cost = 333;
+
+    public Sauce(Food food) : base(food)
+    {
+    }
+
+    public override string Render()
+    {
+        return $"{food.Render()}, Фирменный соус от Михаила";
+    }
+
+    public override int Cost()
+    {
+        return food.Cost() + cost;
+    }
+}
+
+
+class Program
+{
+    static void Main()
+    {
+        
+        Food myPizza = new Pizza("Пицца от Михаила");
+
+    
+        myPizza = new Grib(myPizza);
+        myPizza = new Kolbasa(myPizza);
+        myPizza = new CheeeseBortik(myPizza);
+        myPizza = new Eggs(myPizza);
+        myPizza = new Sauce (myPizza);
+        Console.WriteLine($"{myPizza.Render()} ");
+        Console.WriteLine($"Итоговая стоимость вашей прекрасной пиццы : {myPizza.Cost()} рублей");
+
+
+    }
+
+}
