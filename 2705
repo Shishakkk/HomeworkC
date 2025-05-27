@@ -1,0 +1,15 @@
+internal class Program
+{
+    private static void Main(string[] args)
+    {
+        string filePath = @"C:\Users\РПО1124\source\repos\ConsoleApp2\ConsoleApp2\emails.txt";
+        string fileContent = File.ReadAllText(filePath);
+        string pattern = @"\|[a-zA-Z0-9._-]+@mail+\.[ru]";
+        string result = Regex.Replace(fileContent, pattern, "");
+        MatchCollection matches = Regex.Matches(fileContent, pattern);
+        foreach (Match match in matches)
+        {
+            Console.WriteLine(match.Value);
+        }
+    }
+}
