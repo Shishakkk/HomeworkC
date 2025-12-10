@@ -1,287 +1,40 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+#include <iostream>
+using namespace std;
 
-class Program
-{
-    static void Main()
-    {
-        List<int> numbers = Enumerable.Range(1, 100).ToList();
-        
-        try
-        {
-            long totalSum = CalculateSumOfSquares(numbers);
-            Console.WriteLine($"Сумма квадратов: {totalSum}");
+
+void printMatrix(int** matrix, int rows, int cols) {
+    for (int i = 0; i < rows; ++i) {
+        for (int j = 0; j < cols; ++j) {
+            cout << matrix[i][j] << " ";
         }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Ошибка: {ex.Message}");
-        }
+        cout << endl;
     }
-
-    static long CalculateSumOfSquares(List<int> numbers)
-    {
-        int chunkSize = numbers.Count / 4;
-        Task<long>[] tasks = new Task<long>[4];
-
-        for (int i = 0; i < 4; i++)
-        {
-            int startIndex = i * chunkSize;
-            int endIndex = (i == 3) ? numbers.Count : (i + 1) * chunkSize;
-            
-            List<int> chunk = numbers.GetRange(startIndex, endIndex - startIndex);
-            
-            tasks[i] = Task.Run(() => ProcessChunk(chunk));
-        }
-
-        Task.WaitAll(tasks);
-        
-        return tasks.Sum(t => t.Result);
-    }
-
-    static long ProcessChunk(List<int> chunk)
-    {
-        long sum = 0;
-        
-        foreach (int number in chunk)
-        {
-            if (number < 0)
-            {
-                continue;
-            }
-            
-            sum += (long)number * number;
-        }
-        
-        return sum;
-    }
-}
-// задание 2
-
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Threading;
-using System.Threading.Tasks;
-
-class Program
-{
-    static async Task Main()
-    {
-        try
-        {
-            using var cts = new CancellationTokenSource();
-            
-            cts.CancelAfter(2500);
-            
-            var stopwatch = Stopwatch.StartNew();
-            List<string> results = await LoadDataFromServersAsync(cts.Token);
-            stopwatch.Stop();
-            
-            Console.WriteLine("Результаты загрузки:");
-            foreach (string result in results)
-            {
-                Console.WriteLine(result);
-            }
-            
-            Console.WriteLine($"Общее время выполнения: {stopwatch.ElapsedMilliseconds}мс");
-        }
-        catch (OperationCanceledException)
-        {
-            Console.WriteLine("Загрузка отменена: превышено время ожидания");
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Ошибка: {ex.Message}");
-        }
-    }
-
-    static async Task<List<string>> LoadDataFromServersAsync(CancellationToken cancellationToken)
-    {
-        var tasks = new List<Task<string>>
-        {
-            LoadFromServerAsync("Сервер1", 1000, cancellationToken),
-            LoadFromServerAsync("Сервер2", 2000, cancellationToken),
-            LoadFromServerAsync("Сервер3", 3000, cancellationToken)
-        };
-
-        var results = await Task.WhenAll(tasks);
-        return new List<string>(results);
-    }
-
-    static async Task<string> LoadFromServerAsync(string serverName, int delayMs, CancellationToken cancellationToken)
-    {
-        await Task.Delay(delayMs, cancellationToken);
-        return $"{serverName}: данные загружены";
-    }
+    cout << endl;
 }
 
-// задание 3
-
-
-using System;
-using System.Threading;
-
-class Program
-{
-    private static int counter = 0;
-    private static readonly object lockObject = new object();
-
-    static void Main()
-    {
-        Thread[] threads = new Thread[5];
-
-        for (int i = 0; i < threads.Length; i++)
-        {
-            threads[i] = new Thread(IncrementCounter);
-            threads[i].Start();
-        }
-
-        foreach (Thread thread in threads)
-        {
-            thread.Join();
-        }
-
-        Console.WriteLine($"Финальное значение счетчика: {counter}");
-        Console.WriteLine($"Ожидаемое значение: 5000");
+int** createMatrix(int rows, int cols) {
+    int** matrix = new int* [rows];
+    for (int i = 0; i < rows; ++i) {
+        matrix[i] = new int[cols];
     }
+    return matrix;
+}
 
-    static void IncrementCounter()
-    {
-        for (int i = 0; i < 1000; i++)
-        {
-            lock (lockObject)
-            {
-                counter++;
-            }
+void fillMatrix(int** matrix) {
+    int count = 10;
+    for (int i = 0; i < 4; ++i) {
+        for (int j = 0; j < 5; ++j) {
+            matrix[i][j] = count++;
         }
     }
 }
 
-// задание 4
-
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-
-class Program
-{
-    static void Main()
-    {
-        double[] numbers = { 1, -4, 9 };
-        List<Task<double>> tasks = new List<Task<double>>();
-        List<string> successfulResults = new List<string>();
-        List<string> errors = new List<string>();
-
-        foreach (double number in numbers)
-        {
-            Task<double> task = Task.Run(() => CalculateSquareRoot(number));
-            
-            task.ContinueWith(t =>
-            {
-                if (t.IsCompletedSuccessfully)
-                {
-                    string result = $"Корень из {number} = {t.Result}";
-                    successfulResults.Add(result);
-                    Console.WriteLine($"Успешно: {result}");
-                }
-            }, TaskContinuationOptions.OnlyOnRanToCompletion);
-            
-            task.ContinueWith(t =>
-            {
-                if (t.IsFaulted)
-                {
-                    string error = $"Ошибка для числа {number}: {t.Exception.InnerException.Message}";
-                    errors.Add(error);
-                    Console.WriteLine($"Ошибка: {error}");
-                }
-            }, TaskContinuationOptions.OnlyOnFaulted);
-            
-            tasks.Add(task);
-        }
-
-        Task.WaitAll(tasks.ToArray());
-
-        Console.WriteLine("\nИтоговые результаты:");
-        Console.WriteLine("Успешные вычисления:");
-        foreach (string result in successfulResults)
-        {
-            Console.WriteLine($"  {result}");
-        }
-        
-        Console.WriteLine("Ошибки:");
-        foreach (string error in errors)
-        {
-            Console.WriteLine($"  {error}");
-        }
-    }
-
-    static double CalculateSquareRoot(double number)
-    {
-        if (number < 0)
-        {
-            throw new ArgumentException("Число не может быть отрицательным");
-        }
-        
-        return Math.Sqrt(number);
-    }
-}
-
-// задание 5
-
-using System;
-using System.Threading;
-using System.Threading.Tasks;
-
-class Program
-{
-    static async Task Main()
-    {
-        using var cts = new CancellationTokenSource();
-        
-        cts.CancelAfter(3000);
-        
-        Console.WriteLine("Запуск долгих операций...");
-        Console.WriteLine("Отмена через 3 секунды");
-        
-        try
-        {
-            var task1 = LongOperationAsync("Задача 1", cts.Token);
-            var task2 = LongOperationAsync("Задача 2", cts.Token);
-            
-            await Task.WhenAll(task1, task2);
-            
-            Console.WriteLine("Все задачи завершены успешно");
-        }
-        catch (OperationCanceledException)
-        {
-            Console.WriteLine("Операции были отменены");
-        }
-    }
-
-    static async Task LongOperationAsync(string taskName, CancellationToken cancellationToken)
-    {
-        int completedIterations = 0;
-        
-        try
-        {
-            for (int i = 1; i <= 10; i++)
-            {
-                cancellationToken.ThrowIfCancellationRequested();
-                
-                await Task.Delay(500, cancellationToken);
-                completedIterations++;
-                
-                Console.WriteLine($"{taskName}: завершена итерация {i}");
-            }
-        }
-        catch (OperationCanceledException)
-        {
-            Console.WriteLine($"{taskName}: отменена после {completedIterations} итераций");
-            throw;
-        }
-        
-        Console.WriteLine($"{taskName}: все итерации завершены ({completedIterations})");
-    }
+int main() {
+    setlocale(LC_ALL, "Russian");
+    int rows = 4, cols = 5;
+    int** matrix = createMatrix(rows, cols);
+    fillMatrix(matrix);
+    cout << "Матрица 4х5 :" << endl;
+    printMatrix(matrix, rows, cols);
+    return 0;
 }
